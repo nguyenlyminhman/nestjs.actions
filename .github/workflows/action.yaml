@@ -1,0 +1,7 @@
+name: Chào mừng
+on: [push] # Chạy khi có push code
+jobs:
+  say-hello:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Xin chào, GitHub Actions!"

@@ -1,9 +1,0 @@
-name: "🚀 Deploy to Production"
-
-jobs:
-  deploy:
-    name: "Deploy NestJS to EC2"
-    steps:
-      - name: "📦 Install dependencies"
-      - name: "🔨 Build application"
-      - name: "🚢 Deploy to server"

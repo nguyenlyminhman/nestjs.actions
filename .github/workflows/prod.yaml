@@ -1,5 +1,5 @@
 name: "🚀 Deploy to Production"
-on: [main]
+on: [merge]
 jobs:
   deploy:
     name: "Deploy NestJS to EC2"

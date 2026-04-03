@@ -1,3 +1,16 @@
+# Pre-Condition
+
+# Install Node.js (using NVM is safest)
+# curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash
+# source ~/.bashrc
+# nvm install 20 # Or your preferred version
+
+# Install PM2 globally
+# npm install -g pm2
+
+# Create the app directory
+# mkdir -p ~/apps/my-nestjs-app
+
 name: Deploy NestJS - Enterprise Standard
 
 on:

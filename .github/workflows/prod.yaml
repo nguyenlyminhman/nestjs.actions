@@ -23,7 +23,7 @@ jobs:
           npm run build
 
   cd-deploy:
-    runs-on:
+    runs-on: ubuntu-latest
     steps:
     # We only need 'dist', 'package.json', and 'package-lock.json' on the server
       - name: Deploy to EC2 via SCP

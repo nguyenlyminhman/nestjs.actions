@@ -23,6 +23,7 @@ jobs:
           npm run build
 
   cd-deploy:
+    needs: ci-build
     runs-on: ubuntu-latest
     steps:
     # We only need 'dist', 'package.json', and 'package-lock.json' on the server

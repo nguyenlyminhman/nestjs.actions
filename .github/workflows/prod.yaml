@@ -1,10 +1,11 @@
-name: Deploy NestJS (No Docker)
+name: Deploy NestJS (No Docker) - Enterprise Standard
 
 on:
   push:
     branches: [ main ]
 
 jobs:
+  # --- GIAI ĐOẠN CI: BUILD & TEST ---
   ci-build:
     runs-on: ubuntu-latest
     steps:
@@ -21,12 +22,33 @@ jobs:
         run: |
           npm ci
           npm run build
+          
+      # [Optional] Nên upload artifact để job CD tải về, tránh việc build lại
+      - name: Upload Build Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-files
+          path: |
+            dist/
+            package.json
+            package-lock.json
 
+  # --- GIAI ĐOẠN CD: DEPLOY VỚI APPROVAL ---
   cd-deploy:
     needs: ci-build
     runs-on: ubuntu-latest
+    
+    # KÍCH HOẠT CHUẨN ENTERPRISE TẠI ĐÂY
+    environment: 
+      name: production # Tên môi trường bạn tạo trong Settings > Environments
+      url: http://your-app-url.com # (Tùy chọn) Hiện link app trong tab Actions
+    
     steps:
-    # We only need 'dist', 'package.json', and 'package-lock.json' on the server
+      - name: Download Build Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: build-files
+
       - name: Deploy to EC2 via SCP
         uses: appleboy/scp-action@v0.1.7
         with:
@@ -44,8 +66,6 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd ~/apps/my-nestjs-app
-            npm install --omit=dev # Only install production dependencies on EC2
-            
-            # Start or Reload the app with PM2
+            npm install --omit=dev 
             pm2 delete nest-api || true
             pm2 start dist/main.js --name nest-api

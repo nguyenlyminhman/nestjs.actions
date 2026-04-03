@@ -5,7 +5,7 @@ on:
     branches: [ main ]
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
@@ -21,7 +21,10 @@ jobs:
         run: |
           npm ci
           npm run build
-
+jobs:
+    deploy:
+      runs-on:
+      steps:
       # We only need 'dist', 'package.json', and 'package-lock.json' on the server
       - name: Deploy to EC2 via SCP
         uses: appleboy/scp-action@v0.1.7
